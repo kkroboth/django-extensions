@@ -338,10 +338,11 @@ class Command(BaseCommand):
             else:
                 extra_files.extend(filter(lambda filename: filename.endswith('.mo'), gen_filenames()))
 
-        # Don't run a second instance of the debugger / reloader
-        # See also: https://github.com/django-extensions/django-extensions/issues/832
-        if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-            handler = DebuggedApplication(handler, True)
+        if not use_reloader:
+            # DebuggerApplication only prints pin code if WERKZEUG_RUN_MAIN is
+            # set to true. However, it is only set when using the reloader.
+            # See also: https://github.com/django-extensions/django-extensions/issues/832
+            os.environ['WERKZEUG_RUN_MAIN'] = 'true'
 
         run_simple(
             self.addr,
