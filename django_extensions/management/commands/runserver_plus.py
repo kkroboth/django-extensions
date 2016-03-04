@@ -341,7 +341,7 @@ class Command(BaseCommand):
         # Don't run a second instance of the debugger / reloader
         # See also: https://github.com/django-extensions/django-extensions/issues/832
         if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
-            handler = DebuggedApplication(handler, True),
+            handler = DebuggedApplication(handler, True)
 
         run_simple(
             self.addr,
